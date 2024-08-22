@@ -6,7 +6,10 @@ const PropertyList = () => {
 
     useEffect(() => {
         axios.get('https://localhost:7014/api/properties')
-            .then(response => setProperties(response.data))
+            .then(response => {
+                console.log(response.data); 
+                setProperties(response.data);
+            })
             .catch(error => console.error(error));
     }, []);
 
@@ -14,13 +17,13 @@ const PropertyList = () => {
         <div>
             <h1>Property Listings</h1>
             <ul>
-                {properties.map(property => (
-                    <li key={property.id}>
-                        <h2>{property.title}</h2>
-                        <p>{property.description}</p>
-                        <p>{property.location}</p>
-                        <p>${property.price}</p>
-                        <img src={property.imageUrl} alt={property.title} />
+                {properties.map((property, index) => (
+                    <li key={property.Id || index}>
+                        <h2>{property.Title}</h2>
+                        <p>{property.Description}</p>
+                        <p>{property.Location}</p>
+                        <p>${property.Price}</p>
+                        <img src={property.ImageUrl} alt={property.Title} />
                     </li>
                 ))}
             </ul>

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RealEstateReactASP.NET.Server.Models;
-using Microsoft.Extensions.Logging;
 
 namespace RealEstateReactASP.NET.Server.Controllers
 {
@@ -10,11 +9,10 @@ namespace RealEstateReactASP.NET.Server.Controllers
     public class PropertiesController : ControllerBase
     {
         private readonly RealEstateContext _context;
-        private readonly ILogger<PropertiesController> _logger;
-        public PropertiesController(RealEstateContext context, ILogger<PropertiesController> logger)
+
+        public PropertiesController(RealEstateContext context)
         {
             _context = context;
-            _logger = logger;
         }
 
         [HttpGet]
@@ -27,10 +25,10 @@ namespace RealEstateReactASP.NET.Server.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while retrieving properties.");
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while retrieving properties.");
             }
         }
+
         [HttpPost]
         public async Task<ActionResult<Property>> PostProperty([FromBody] Property property)
         {
@@ -52,7 +50,6 @@ namespace RealEstateReactASP.NET.Server.Controllers
             }
             catch (DbUpdateException ex)
             {
-                _logger.LogError(ex, "An error occurred while saving the property.");
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while saving the property.");
             }
         }
