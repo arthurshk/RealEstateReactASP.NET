@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const PropertyForm = () => {
     const [title, setTitle] = useState('');
@@ -9,6 +10,8 @@ const PropertyForm = () => {
     const [imageUrl, setImageUrl] = useState('');
     const [error, setError] = useState(null);
 
+    const navigate = useNavigate(); 
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -17,16 +20,23 @@ const PropertyForm = () => {
             description,
             location,
             price: parseFloat(price),
-            imageUrl
+            imageUrl,
         };
 
         axios.post('https://localhost:7014/api/properties', propertyData)
             .then(response => {
                 console.log('Property added successfully:', response.data);
+                navigate('/'); 
             })
             .catch(error => {
                 console.error('There was an error!', error);
-                setError('Failed to add property. Please check the input data and try again.');
+                if (error.response && error.response.status === 415) {
+                    setError('Unsupported Media Type. Please ensure your input is correct.');
+                } else if (error.response && error.response.status === 400) {
+                    setError('Bad Request. Please check the input data.');
+                } else {
+                    setError('Failed to add property. Please try again later.');
+                }
             });
     };
 
