@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RealEstateReactASP.NET.Server.Models;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace RealEstateReactASP.NET.Server.Controllers
 {
@@ -25,6 +28,7 @@ namespace RealEstateReactASP.NET.Server.Controllers
             }
             catch (Exception ex)
             {
+                Console.Error.WriteLine($"Error retrieving properties: {ex.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while retrieving properties.");
             }
         }
@@ -50,7 +54,13 @@ namespace RealEstateReactASP.NET.Server.Controllers
             }
             catch (DbUpdateException ex)
             {
+                Console.Error.WriteLine($"Error saving property: {ex.Message}");
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while saving the property.");
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"Unexpected error: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred.");
             }
         }
     }

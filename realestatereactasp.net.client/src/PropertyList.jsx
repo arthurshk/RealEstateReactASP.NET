@@ -3,27 +3,37 @@ import axios from 'axios';
 
 const PropertyList = () => {
     const [properties, setProperties] = useState([]);
+    const [loading, setLoading] = useState(true); 
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         axios.get('https://localhost:7014/api/properties')
             .then(response => {
-                console.log(response.data); 
+                console.log('API Response:', response.data);
                 setProperties(response.data);
+                setLoading(false); 
             })
-            .catch(error => console.error(error));
+            .catch(error => {
+                console.error('Error fetching properties:', error);
+                setError('Failed to load properties.');
+                setLoading(false); 
+            });
     }, []);
 
     return (
         <div>
             <h1>Property Listings</h1>
+            {loading && <p>Loading...</p>} 
+            {error && <p>{error}</p>} 
+            {!loading && properties.length === 0 && !error && <p>No properties found.</p>} 
             <ul>
-                {properties.map((property, index) => (
-                    <li key={property.Id || index}>
-                        <h2>{property.Title}</h2>
-                        <p>{property.Description}</p>
-                        <p>{property.Location}</p>
-                        <p>${property.Price}</p>
-                        <img src={property.ImageUrl} alt={property.Title} />
+                {!loading && !error && properties.map((property, index) => (
+                    <li key={`${property.id}-${index}`}>  
+                        <h2>{property.title}</h2>
+                        <p>{property.description}</p>
+                        <p>{property.location}</p>
+                        <p>${property.price}</p>
+                        <img src={property.imageUrl} alt={property.title} />
                     </li>
                 ))}
             </ul>
