@@ -63,5 +63,20 @@ namespace RealEstateReactASP.NET.Server.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred.");
             }
         }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProperty(int id)
+        {
+            var property = await _context.Properties.FindAsync(id);
+            if (property == null)
+            {
+                return NotFound();
+            }
+
+            _context.Properties.Remove(property);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
     }
 }
