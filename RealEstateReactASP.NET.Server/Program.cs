@@ -9,7 +9,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<RealEstateContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
+//prevents cross origin errors port #'s do not give error
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
