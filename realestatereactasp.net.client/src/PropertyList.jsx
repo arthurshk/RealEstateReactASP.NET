@@ -38,7 +38,7 @@ const PropertyList = () => {
     };
 
     return (
-        <div>
+        <div className="container">
             <h1>Property Listings</h1>
             {loading && <p>Loading...</p>}
             {error && <p>{error}</p>}
@@ -50,7 +50,7 @@ const PropertyList = () => {
                         <p>{property.description}</p>
                         <p>{property.location}</p>
                         <p>${property.price}</p>
-                        <img src={property.imageUrl} alt={property.title} />
+                        <img src={property.imageUrl} alt={property.title}/>
                         <button onClick={() => handleDelete(property.id)}>Delete</button>
                     </li>
                 ))}
