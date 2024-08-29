@@ -39,7 +39,7 @@ const PropertyList = () => {
 
     return (
         <div className="container">
-            <h1>Property Listings</h1>
+            <h1>Property Listings - Put your listing while on vacation!</h1>
             {loading && <p>Loading...</p>}
             {error && <p>{error}</p>}
             {!loading && properties.length === 0 && !error && <p>No properties found.</p>}
