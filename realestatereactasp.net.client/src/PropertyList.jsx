@@ -49,7 +49,7 @@ const PropertyList = () => {
                         <h2>{property.title}</h2>
                         <p>{property.description}</p>
                         <p>{property.location}</p>
-                        <p>${property.price}</p>
+                        <p>${property.price.toLocaleString()}</p>
                         <img src={property.imageUrl} alt={property.title}/>
                         <button onClick={() => handleDelete(property.id)}>Delete</button>
                     </li>
