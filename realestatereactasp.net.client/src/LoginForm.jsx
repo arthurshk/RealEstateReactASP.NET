@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 
 function LoginForm() {
     const [email, setEmail] = useState('');
@@ -24,8 +24,21 @@ function LoginForm() {
         }
     };
 
-    const handleGoogleLoginSuccess = (response) => {
-        console.log("Google Login Success", response);
+    const handleGoogleLoginSuccess = async (response) => {
+        try {
+            const idToken = response.credential;
+            const backendResponse = await axios.post('/api/auth/google-login', { token: idToken });
+
+            if (backendResponse.status === 200) {
+                const jwtToken = backendResponse.data.token;
+                localStorage.setItem('jwtToken', jwtToken);
+                window.location.href = '/';
+            } else {
+                console.error("Failed to authenticate with backend", backendResponse);
+            }
+        } catch (error) {
+            console.error("Error during Google login process", error);
+        }
     };
 
     const handleGoogleLoginFailure = (response) => {
@@ -39,36 +52,23 @@ function LoginForm() {
                 <form onSubmit={handleLogin}>
                     <div>
                         <label>Email:</label>
-                        <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
+                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
                     </div>
                     <div>
                         <label>Password:</label>
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
+                        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                     </div>
                     <button type="submit">Login</button>
                 </form>
                 <p>Don't have an account? <button onClick={() => navigate('/register')}>Register here</button></p>
 
-                <div style={{ marginTop: '20px' }}>
-                    <h3>Or login with Google</h3>
-                    <GoogleLogin
-                        onSuccess={handleGoogleLoginSuccess}
-                        onFailure={handleGoogleLoginFailure}
-                        useOneTap
-                    />
-                </div>
+                <GoogleLogin
+                    onSuccess={handleGoogleLoginSuccess}
+                    onFailure={handleGoogleLoginFailure}
+                    useOneTap
+                />
             </div>
-            <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}/>
+        </GoogleOAuthProvider>
     );
 }
 

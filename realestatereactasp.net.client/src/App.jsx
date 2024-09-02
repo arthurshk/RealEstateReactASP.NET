@@ -12,10 +12,10 @@ function App() {
             <div>
                 <Navbar />
                 <Routes>
-                    <Route path="/" element={<PropertyList />} />
-                    <Route path="/add-property" element={<PropertyForm />} />
-                    <Route path="/login" element={<LoginForm />} />
-                    <Route path="/register" element={<RegisterForm />} />
+                    <Route path="/" element={<PropertyList/>} />
+                    <Route path="/add-property" element={<PropertyForm/>} />
+                    <Route path="/login" element={<LoginForm/>} />
+                    <Route path="/register" element={<RegisterForm/>} />
                 </Routes>
             </div>
         </Router>
