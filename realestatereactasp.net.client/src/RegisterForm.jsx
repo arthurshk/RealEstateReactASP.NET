@@ -11,6 +11,8 @@ function RegisterForm() {
             const response = await axios.post('/api/auth/register', { email, password });
             if (response.status === 201) {
                 window.location.href = '/login';
+                setEmail('');
+                setPassword('');
             }
         } catch (error) {
             console.error("Registration failed", error);
