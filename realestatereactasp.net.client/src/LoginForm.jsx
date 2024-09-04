@@ -48,10 +48,10 @@ function LoginForm() {
     return (
         <div>
             <h2>Login</h2>
-            <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+            <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
                 <GoogleLogin
                     onSuccess={handleGoogleLoginSuccess}
-                    onFailure={handleGoogleLoginFailure}
+                    onError={handleGoogleLoginFailure}
                     useOneTap
                 />
             </GoogleOAuthProvider>
