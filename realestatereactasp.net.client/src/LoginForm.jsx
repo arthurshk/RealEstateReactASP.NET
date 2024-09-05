@@ -15,9 +15,7 @@ function LoginForm() {
             if (response.status === 200) {
                 const token = response.data.token;
                 localStorage.setItem('jwtToken', token);
-                window.location.href = '/';
-                setEmail('');
-                setPassword('');
+                navigate('/');
             }
         } catch (error) {
             console.error("Login failed", error);
@@ -32,7 +30,7 @@ function LoginForm() {
             if (backendResponse.status === 200) {
                 const jwtToken = backendResponse.data.token;
                 localStorage.setItem('jwtToken', jwtToken);
-                window.location.href = '/';
+                navigate('/');
             } else {
                 console.error("Failed to authenticate with backend", backendResponse);
             }
@@ -41,8 +39,8 @@ function LoginForm() {
         }
     };
 
-    const handleGoogleLoginFailure = (response) => {
-        console.error("Google Login Failed", response);
+    const handleGoogleLoginFailure = (error) => {
+        console.error("Google Login Failed", error);
     };
 
     return (
