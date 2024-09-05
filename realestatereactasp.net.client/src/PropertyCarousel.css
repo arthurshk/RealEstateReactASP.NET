@@ -1,0 +1,23 @@
+.property-carousel
+{
+    width: 80%;
+    margin: auto;
+}
+.property-slide
+{
+    text-align: center;
+}
+.property-slide img
+{
+    width: 100%;
+    height: auto;
+}
+.property-slide h3
+{
+    margin: 10px 0;
+}
+.property-slide p
+{
+    color: #666;
+}
+
