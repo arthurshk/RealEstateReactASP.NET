@@ -48,7 +48,7 @@ function LoginForm() {
     return (
         <div>
             <h2>Login</h2>
-            <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+            <GoogleOAuthProvider>
                 <GoogleLogin
                     onSuccess={handleGoogleLoginSuccess}
                     onError={handleGoogleLoginFailure}
