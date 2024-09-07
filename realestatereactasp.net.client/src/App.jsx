@@ -5,7 +5,6 @@ import PropertyForm from './PropertyForm';
 import Navbar from './Navbar';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
-
 function App() {
     return (
         <Router>
@@ -19,7 +18,6 @@ function App() {
                 </Routes>
             </div>
         </Router>
-
     );
 }
 
