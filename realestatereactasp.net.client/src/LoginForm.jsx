@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
@@ -8,6 +8,11 @@ function LoginForm() {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
+    useEffect(() => {
+        setEmail('');
+        setPassword('');
+    }, []); 
+
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
@@ -16,6 +21,8 @@ function LoginForm() {
                 const token = response.data.token;
                 localStorage.setItem('jwtToken', token);
                 navigate('/');
+                setEmail('');
+                setPassword('');
             }
         } catch (error) {
             console.error("Login failed", error);
@@ -31,8 +38,6 @@ function LoginForm() {
                 const jwtToken = backendResponse.data.token;
                 localStorage.setItem('jwtToken', jwtToken);
                 navigate('/');
-            } else {
-                console.error("Failed to authenticate with backend", backendResponse);
             }
         } catch (error) {
             console.error("Error during Google login process", error);
@@ -46,7 +51,7 @@ function LoginForm() {
     return (
         <div>
             <h2>Login</h2>
-            <GoogleOAuthProvider>
+            <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
                 <GoogleLogin
                     onSuccess={handleGoogleLoginSuccess}
                     onError={handleGoogleLoginFailure}
